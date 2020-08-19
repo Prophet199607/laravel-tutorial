@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Post;
+use App\User;
 
 class PostController extends Controller
 {
@@ -79,7 +80,7 @@ class PostController extends Controller
         // }
 
         // return $validated = $request->validated(); //return validated data
-        $path = 'post_images/default_image.png';
+        $path = 'post_images/default_image.jpg';
         // $request->file('post_image');
         if ($request->hasFile('post_image')) {
             $path = $request->post_image->path();
@@ -92,7 +93,7 @@ class PostController extends Controller
         }
         // return $path;
 
-        Post::create(['post_title' => $request->post_title, 'post_content' => $request->post_content, 'image_path' => $path]);
+        User::find($request->user_id)->posts()->create(['post_title' => $request->post_title, 'post_content' => $request->post_content, 'image_path' => $path]);
         return redirect()->route('post.index');
     }
 

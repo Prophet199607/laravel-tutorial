@@ -5,6 +5,7 @@ use App\Post;
 use App\User;
 use App\Role;
 use App\Country;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -81,3 +82,20 @@ Route::resource('/post', 'Posts\PostController');
 //     Route::get('/post', 'PostController@index')->name('post.index')->withoutMiddleware('role');
 //     Route::get('/post/create', 'PostController@create')->name('post.create');
 // });
+
+Route::get('/session', function (Request $request) {
+    // $request->session()->put('name', 'Pasindu'); // Http session
+    // session(['id' => 12]); // global session
+    // session()->forget('id'); // to delete single session
+    // session()->flush();
+
+    // $request->session()->flash('id', 1);
+    // $request->session()->flash('name', 'Pasindu');
+    // $request->session()->reflash();
+    $request->session()->keep('id');
+
+    return $request->session()->all();
+    // return $request->session()->get('name');
+    // return session()->get('id');
+
+});

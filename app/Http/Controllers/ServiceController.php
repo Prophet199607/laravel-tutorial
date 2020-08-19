@@ -17,7 +17,7 @@ class ServiceController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['serial_no' => $request->serial_no, 'msg' => 'Duplicate Serial No', 'http_status' => 500, 'success' => false], 500);
+            return response()->json(['serial_no' => $request->serial_no, 'msg' => 'Duplicate Serial No 2', 'http_status' => 500, 'success' => false], 500);
         }
 
         Service::create(['InvNo' => $request->serial_no, 'CustomerCode' => $request->customer_id]);
