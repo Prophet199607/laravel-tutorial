@@ -5,6 +5,7 @@ use App\Post;
 use App\User;
 use App\Role;
 use App\Country;
+use App\Mail\PostSaveMail;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;

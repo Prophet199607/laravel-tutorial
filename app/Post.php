@@ -11,7 +11,7 @@ class Post extends Model
 
     protected $dates = ['deletd_at'];
 
-    protected $fillable = ['post_title', 'post_content', 'image_path', 'user_id'];
+    protected $fillable = ['post_title', 'post_content', 'image_path', 'user_id', 'status'];
 
     public function user()
     {

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Posts;
 
+use App\Events\NewPostHasCreatedEvent;
 use App\Http\Requests\PostRequest;
 use App\Http\Controllers\Controller;
+use App\Mail\PostSaveMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Post;
 use App\User;
+use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
@@ -54,13 +57,13 @@ class PostController extends Controller
         //     'post_content' => 'required|min:3|max:250'
         // ]);
 
-        
+
         // $request->validate([
         //     'post_title' => 'required|min:3',
         //     'post_content' => 'required|min:3|max:250'
         // ]);  
 
-       
+
 
         $validator  = Validator::make(
             $request->all(),
@@ -77,7 +80,7 @@ class PostController extends Controller
             ]
         )->validate();
 
-       
+
 
         // if ($validator->fails()) {
         //     return redirect()->route('post.create')->withErrors($validator)->withInput();
@@ -87,7 +90,7 @@ class PostController extends Controller
         //     return response()->json(['errors' => $validator->errors()], 422);
         // }
 
-        
+
 
         // return $validated = $request->validated(); //return validated data
         $path = 'post_images/default_image.jpg';
@@ -104,7 +107,13 @@ class PostController extends Controller
         }
         // return $path;
 
-        Post::create(['post_title' => $request->post_title, 'post_content' => $request->post_content, 'image_path' => $path]);
+        $post = User::find(1)->posts()->create(['post_title' => $request->post_title, 'post_content' => $request->post_content, 'image_path' => $path, 'status' => 1]);
+
+        event(new NewPostHasCreatedEvent($post));
+        // return new PostSaveMail();
+        // Mail::to('pasindu2k16@gmail.com')->send(new PostSaveMail());
+        // Mail::to('pasindu2k16@gmail.com')->queue(new PostSaveMail());
+
         return redirect()->route('post.index');
     }
 
