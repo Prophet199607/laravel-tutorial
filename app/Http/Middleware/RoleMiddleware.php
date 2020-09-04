@@ -15,10 +15,13 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if ($request->age > 20) {
-            return $next($request);
-        }
-        return response()->json(['message' => 'Unauthorized'], 401);
-        return redirect()->route('post.index');
+
+        
+        return $next($request);
+        // if ($request->age > 20) {
+        //     return $next($request);
+        // }
+        // return response()->json(['message' => 'Unauthorized'], 401);
+        // return redirect()->route('post.index');
     }
 }

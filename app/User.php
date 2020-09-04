@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -45,5 +46,15 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany('App\Post');
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d');
+    }
+
+    public function getNameAttribute($value)
+    {
+        return strtoupper($value);
     }
 }

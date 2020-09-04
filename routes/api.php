@@ -23,9 +23,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     Route::get('/post', 'PostController@index');
 //     Route::post('/post', 'PostController@store');
 // });
-Route::group(['middleware' => 'role', 'namespace' => 'Posts'], function () {
+Route::group(['namespace' => 'Posts'], function () {
     Route::get('/post', 'PostController@index');
     Route::post('/post', 'PostController@store');
 });
 
-Route::post('/service', 'ServiceController@store');
+// Route::post('/service', 'ServiceController@store');

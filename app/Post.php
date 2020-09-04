@@ -17,4 +17,19 @@ class Post extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function setPostTitleAttribute($value)
+    {
+        $this->attributes['post_title'] = strtoupper($value);
+    }
+
+    public function scopeCustomLatest($query)
+    {
+        return $query->orderBy('id', 'desc')->get();
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
 }

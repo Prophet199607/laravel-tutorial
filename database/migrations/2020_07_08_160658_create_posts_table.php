@@ -18,6 +18,7 @@ class CreatePostsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('post_title');
             $table->longText('post_content');
+            $table->tinyInteger('status');
             $table->softDeletes();
             $table->timestamps();
         });

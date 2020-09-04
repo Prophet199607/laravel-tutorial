@@ -11,10 +11,10 @@ use App\User;
 
 class PostController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('role')->only(['store']);
-    // }
+    public function __construct()
+    {
+        $this->middleware('role')->except(['index']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +23,9 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();;
-        return view('posts.index')->with(['posts' => $posts]);
+        // return view('posts.index')->with(['posts' => $posts]);
+        // return view('posts.index', ['posts' => $posts]);
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -42,42 +44,50 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostRequest $request)
+    public function store(Request $request)
     {
+        // return 'success';
         // $post_title = $request->input('post_title');
 
         // $this->validate($request, [
-        //     'post_title' => 'required|min:3',
+        //     'post_title' => 'required|min:5',
         //     'post_content' => 'required|min:3|max:250'
         // ]);
 
+        
         // $request->validate([
         //     'post_title' => 'required|min:3',
         //     'post_content' => 'required|min:3|max:250'
         // ]);  
 
-        // $validator  = Validator::make(
-        //     $request->all(),
-        //     [ // rules
-        //         'post_title' => 'required|min:3',
-        //         'post_content' => 'required|min:3|max:250'
-        //     ],
-        //     [ // custom messages
-        //         'post_title.requ ired' => 'this is a custom error message for POST TITLE',
-        //         'required' => 'this is a custom error message for :attribute',
-        //     ],
-        //     [ // custom attributes
-        //         'post_content' => 'POST CONTENT CUSTOM'
-        //     ]
-        // )->validate();
+       
+
+        $validator  = Validator::make(
+            $request->all(),
+            [ // rules
+                'post_title' => 'required|min:3',
+                'post_content' => 'required|min:3|max:250'
+            ],
+            [ // custom messages
+                'post_title.required' => 'this is a custom error message for :attribute',
+                // 'required' => 'this is a custom error message for AAAAAA',
+            ],
+            [ // custom attributes
+                'post_title' => 'POST TITLE'
+            ]
+        )->validate();
+
+       
 
         // if ($validator->fails()) {
         //     return redirect()->route('post.create')->withErrors($validator)->withInput();
         // }
 
         // if ($validator->fails()) {
-        //     return response()->json(['errors' => $validator->errors()], 400);
+        //     return response()->json(['errors' => $validator->errors()], 422);
         // }
+
+        
 
         // return $validated = $request->validated(); //return validated data
         $path = 'post_images/default_image.jpg';
@@ -88,12 +98,13 @@ class PostController extends Controller
             $original_name = $request->post_image->getClientOriginalName();
             $original_extension = $request->post_image->getClientOriginalExtension();
             $mime_type = $request->post_image->getClientMimeType();
+            // return $mime_type;
 
             $path = $request->post_image->store('post_images', 'public');
         }
         // return $path;
 
-        User::find($request->user_id)->posts()->create(['post_title' => $request->post_title, 'post_content' => $request->post_content, 'image_path' => $path]);
+        Post::create(['post_title' => $request->post_title, 'post_content' => $request->post_content, 'image_path' => $path]);
         return redirect()->route('post.index');
     }
 

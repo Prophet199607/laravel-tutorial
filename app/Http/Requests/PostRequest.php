@@ -43,4 +43,6 @@ class PostRequest extends FormRequest
             'post_content' => 'custom attribute'
         ];
     }
+
+    
 }

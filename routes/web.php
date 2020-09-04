@@ -6,6 +6,9 @@ use App\User;
 use App\Role;
 use App\Country;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,11 +25,12 @@ Route::get('/', function () {
 });
 
 Route::get('/insert', function () {
-    Post::create(['post_title' => 'Post Title 1', 'post_content' => 'Post Content 1']);
+    Post::create(['user_id' => 1, 'post_title' => 'Post Title 1', 'post_content' => 'Post Content 1']);
 });
 
 Route::get('/view', function () {
-    $posts = Post::all();
+    // $posts = Post::select('id', 'post_title')->customLatest();
+    $posts = Post::select('id', 'post_title')->active()->get();
     return $posts;
 });
 
@@ -84,18 +88,47 @@ Route::resource('/post', 'Posts\PostController');
 // });
 
 Route::get('/session', function (Request $request) {
-    // $request->session()->put('name', 'Pasindu'); // Http session
+    // $request->session()->put('name', 'PROPHET'); // Http session
+    // $request->session()->put('id', 100); // Http session
     // session(['id' => 12]); // global session
-    // session()->forget('id'); // to delete single session
+    // session()->forget('name'); // to delete single session
     // session()->flush();
 
-    // $request->session()->flash('id', 1);
+    // $request->session()->flash('id', 44);
     // $request->session()->flash('name', 'Pasindu');
     // $request->session()->reflash();
-    $request->session()->keep('id');
+    // $request->session()->keep('id');
 
     return $request->session()->all();
     // return $request->session()->get('name');
     // return session()->get('id');
 
+});
+
+Route::get('/dates', function () {
+    // echo Carbon::now();
+    // echo now()->addDay()->format('Y-m-d');
+    // echo now()->addDays(10)->format('Y-m-d');
+    // echo now()->subMinutes(2)->diffForHumans();
+    echo now()->subMonths(2)->diffForHumans();
+});
+
+
+Route::get('/accessors/user', function () {
+    $user = User::first();
+    // return $user->name;
+    // return $user->created_at;
+    return $user;
+});
+
+
+Route::get('/email', function () {
+
+    $data = [
+        'name' => 'PROPHET',
+        'verification_code' => rand(1000, 99999),
+        'content' => 'This is the content',
+    ];
+    // return new TestMail($data);
+    Mail::to('pasindu2k16@gmail.com')->send(new TestMail($data));
 });

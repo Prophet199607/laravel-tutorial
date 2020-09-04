@@ -13,6 +13,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+
+        // factory(App\User::class, 5)->create();
         // DB::table('users')->insert([
         //     'name' => Str::random(10),
         //     'email' => Str::random(10).'@example.com',
