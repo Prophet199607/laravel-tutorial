@@ -25,6 +25,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // Gate::define('add-post', function($user) {
+        //     return in_array($user->email, ['spasindu2k16@gmail.com']);
+        // });
+
+        Gate::define('delete-post', function($user, $post) {
+            return $user->id == $post->user_id;
+        });
+
+        // Gate::define('add-post', 'App\Policies\PostPolicy@delete');
     }
 }

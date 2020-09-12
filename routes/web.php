@@ -81,12 +81,19 @@ Route::get('/country/{id}/user', function ($id) {
 });
 
 
-Route::resource('/post', 'Posts\PostController');
+// Route::resource('/post', 'Posts\PostController');
 // Route::group(['middleware' => 'role', 'namespace' => 'Posts'], function () {
-//     Route::post('/post', 'PostController@store')->name('post.store');;
+//     Route::post('/post', 'PostController@store')->name('post.store');
 //     Route::get('/post', 'PostController@index')->name('post.index')->withoutMiddleware('role');
 //     Route::get('/post/create', 'PostController@create')->name('post.create');
 // });
+Route::group(['namespace' => 'Posts'], function () {
+    Route::post('/post', 'PostController@store')->name('post.store');
+    Route::get('/post/create', 'PostController@create')->name('post.create');
+    Route::get('/post', 'PostController@index')->name('post.index');
+    Route::get('/post/{post}', 'PostController@show')->name('post.show'); //->middleware('can:view,post')
+    Route::delete('/post/{post}', 'PostController@destroy')->name('post.destroy');
+});
 
 Route::get('/session', function (Request $request) {
     // $request->session()->put('name', 'PROPHET'); // Http session
@@ -133,3 +140,7 @@ Route::get('/email', function () {
     // return new TestMail($data);
     Mail::to('pasindu2k16@gmail.com')->send(new TestMail($data));
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

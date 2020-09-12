@@ -28,6 +28,6 @@ class PostUnderReviewListener implements ShouldQueue
     public function handle($event)
     {
         // sleep(10);
-        Mail::to($event->post->user->email)->queue(new PostSaveMail($event->post));
+        Mail::to($event->post->user->email)->send(new PostSaveMail($event->post));
     }
 }
