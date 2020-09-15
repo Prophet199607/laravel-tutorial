@@ -115,12 +115,12 @@ class PostController extends Controller
         // $post = User::find(1)->posts()->create(['post_title' => $request->post_title, 'post_content' => $request->post_content, 'image_path' => $path, 'status' => 1]);
         $post = auth()->user()->posts()->create(['post_title' => $request->post_title, 'post_content' => $request->post_content, 'image_path' => $path, 'status' => 1]);
 
-        dispatch(new SendEmail($post));
+        // dispatch(new SendEmail($post));
         // event(new NewPostHasCreatedEvent($post));
 
         // return new PostSaveMail();
         // Mail::to('pasindu2k16@gmail.com')->send(new PostSaveMail($post));
-        // Mail::to('pasindu2k16@gmail.com')->queue(new PostSaveMail());
+        Mail::to('pasindu2k16@gmail.com')->queue(new PostSaveMail($post));
 
         return redirect()->route('post.index');
     }
@@ -131,10 +131,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::findOrFail($id);
-        // $this->authorize('view', $post);
+        // $post = Post::findOrFail($id);
+        $this->authorize('view', $post);
         return view('posts.show', compact('post'));
     }
 
@@ -167,11 +167,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        $post = Post::find($id);
+        // $post = Post::find($id);
         if (Gate::allows('delete-post', $post)) {
-            // $this->authorize('delete', $id);
+            // $this->authorize('delete', $post);
             // return Storage::delete(explode('/', $post->image_path)[1]);
             if ($post->image_path != 'post_images/default_image.jpg') {
                 unlink(public_path('storage/'. $post->image_path));

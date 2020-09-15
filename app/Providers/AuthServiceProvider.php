@@ -29,10 +29,10 @@ class AuthServiceProvider extends ServiceProvider
         //     return in_array($user->email, ['spasindu2k16@gmail.com']);
         // });
 
-        Gate::define('delete-post', function($user, $post) {
-            return $user->id == $post->user_id;
+        Gate::define('delete', function($user, $post) {
+            return $user->type == $post->user_id;
         });
 
-        // Gate::define('add-post', 'App\Policies\PostPolicy@delete');
+        // Gate::define('delete-post', 'App\Policies\PostPolicy@delete');
     }
 }
