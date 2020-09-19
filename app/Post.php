@@ -18,6 +18,11 @@ class Post extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+
     public function setPostTitleAttribute($value)
     {
         $this->attributes['post_title'] = strtoupper($value);

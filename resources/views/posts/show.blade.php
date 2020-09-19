@@ -32,6 +32,27 @@
                                     <div class="col-md-12 mt-3">
                                         <h5 class="card-text ml-4"  style="font-weight: 500">{{ $post->post_content }}</h5>
                                     </div>
+                                    <div class="col-md-12 mt-3 text-primary">
+                                        <p>Comments</p>
+                                        <form action="{{ route('comments.store') }}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="post_id" value={{ $post->id }}>
+                                            <div class="form-group">
+                                                <textarea name="comment" class="form-control" name="" rows="2" placeholder="Enter your comment here"></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-success float-right">Submit</button>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                        @foreach ($post->comments as $comment)
+                                            <div class="card mt-1">
+                                                <div class="card-body">
+                                                    <strong>{{$comment->user->name}} - {{$comment->created_at}}</strong>
+                                                    <p>{{$comment->comment}}</p>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>

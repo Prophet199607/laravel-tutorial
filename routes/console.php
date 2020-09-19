@@ -17,3 +17,21 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+
+Artisan::command('post:clean', function () {
+    $this->info('cleaning..');
+    $posts = App\Post::doesntHave('comments')
+        ->get()
+        ->each(function($post) {
+            $post->delete();
+            $this->warn('Deleted:' . $post->post_title);
+        });
+
+        if ($posts->isEmpty()) {
+            $this->info('Nothing to clear!');
+            return;
+        }
+
+        $this->info('completed!');
+})->describe('Cleans up unused posts');

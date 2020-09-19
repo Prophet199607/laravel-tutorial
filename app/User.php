@@ -48,6 +48,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Post');
     }
 
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('Y-m-d');
@@ -57,4 +62,6 @@ class User extends Authenticatable
     {
         return strtoupper($value);
     }
+
+    
 }

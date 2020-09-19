@@ -134,7 +134,7 @@ class PostController extends Controller
     public function show(Post $post)
     {
         // $post = Post::findOrFail($id);
-        $this->authorize('view', $post);
+        $this->authorize('view', $post->load('comments.user'));
         return view('posts.show', compact('post'));
     }
 

@@ -33,6 +33,6 @@ class AuthServiceProvider extends ServiceProvider
             return $user->type == $post->user_id;
         });
 
-        // Gate::define('delete-post', 'App\Policies\PostPolicy@delete');
+        Gate::define('delete-post', 'App\Policies\PostPolicy@delete');
     }
 }
