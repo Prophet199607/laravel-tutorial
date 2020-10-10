@@ -17,7 +17,11 @@ class ServiceController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['serial_no' => $request->serial_no, 'msg' => 'Duplicate Serial No 2', 'http_status' => 500, 'success' => false], 500);
+            return response()->json([
+                'msg' => 'Duplicate Serial No', 
+                'http_status' => 500, 
+                'success' => false
+            ], 500);
         }
 
         Service::create(['InvNo' => $request->serial_no, 'CustomerCode' => $request->customer_id]);
@@ -27,6 +31,13 @@ class ServiceController extends Controller
             'customer_id' => $request->customer_id,
             'dispenser_service_items' => $request->dispenser_service_item,
         ];
-        return response()->json(['serial_no' => $request->serial_no, 'msg' => 'Success', 'success' => true, 'data' => $data], 200);
+        return response()->json([
+            'data' => $data,
+            'error' => 'Service has been created',
+            'http_status' => 200,
+            'http_status_message' => "OK",
+            'msg' => 'Service has been created',
+            'success' => true,
+        ], 200);
     }
 }

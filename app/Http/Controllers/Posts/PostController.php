@@ -117,10 +117,11 @@ class PostController extends Controller
 
         // dispatch(new SendEmail($post));
         // event(new NewPostHasCreatedEvent($post));
+        broadcast(new NewPostHasCreatedEvent($post))->toOthers();
 
         // return new PostSaveMail();
         // Mail::to('pasindu2k16@gmail.com')->send(new PostSaveMail($post));
-        Mail::to('pasindu2k16@gmail.com')->queue(new PostSaveMail($post));
+        // Mail::to('pasindu2k16@gmail.com')->queue(new PostSaveMail($post));
 
         return redirect()->route('post.index');
     }
